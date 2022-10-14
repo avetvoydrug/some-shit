@@ -1,0 +1,31 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    char input[150] = "134.0123";
+    /*cin >> input;*/
+    int dot_index;
+    // поиск индекса точки
+    for (int i = 0; input[i]; i++){
+        if(input[i] == '.' || input[i] == ','){
+            dot_index = i;
+            break;
+        }    
+    }
+    
+    // вывод целой части
+    for (int i = 0; i < dot_index; i++){
+        cout << input[i];
+    }
+    
+    cout << endl;
+    
+    //вывод вещественной части
+    for (int i = dot_index + 1; input[i]; i++){
+        cout << input[i];
+    }
+
+    return 0;
+}
