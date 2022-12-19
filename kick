@@ -1,0 +1,22 @@
+#include <iostream>
+    using namespace std;
+ 
+int main(){
+    int k;
+    cout << "студентов ближе к кику ";
+    cin >> k;
+    cout << "\nКирилл Владимирoвич отправил " << k << " ";
+    
+    if(k > 4 && k < 21) 
+        cout << "студентов";
+    else
+        switch(k % 10){
+            case 1:
+                cout << "студента";
+                break;
+            default:
+                cout << "студентов";
+        }
+    cout << " на пересдачу экзамена";
+    return 0;
+}
