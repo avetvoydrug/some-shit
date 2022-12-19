@@ -1,0 +1,155 @@
+#include <iostream>
+#include <cstdlib>
+#include <clocale>
+#include <ctime>
+#include <algorithm>
+#include <windows.h>
+using namespace std;
+
+void printData(int pTotal, int dCard) {
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+    cout << "\nУ нас " << pTotal;
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+    cout << "\nКол-во карт у компа " << dCard << endl;
+
+}
+
+int getCard() {
+
+    return rand() %11 + 2;
+
+}
+
+void turn(int& pTotal, char choice, bool& stay) {
+
+    // ещё карта или стоп
+    if (choice == 'I' || choice == 'i') {
+
+        // 21 или больше
+        if ((pTotal += getCard()) > 21) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 203);
+            cout << "Очко подгорает " << pTotal;
+            stay = true;
+
+        }
+        else if ((pTotal += getCard()) == 21) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+            cout << "ВКУСНО " << pTotal;
+            stay = true;
+
+        }
+
+        return;
+    }
+
+    // единственный вар ток стэй
+    stay = true;
+
+}
+
+int main() {
+    
+    setlocale(0, "");
+    bool stay;
+    char choice = NULL;
+
+    while (true) {
+
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+        cout << "================================" << endl;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+        cout << "21 - проиграй своё очко" << endl;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+        cout << "================================" << endl;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+        stay = false;
+
+        // получение карт, выбор рандомом первого игрока
+        srand(time(0));
+        int dCard = getCard();
+        int pTotal = getCard() + getCard();
+        int dTotal = dCard + getCard();
+
+
+        // Моя игра
+        while (!stay) {
+
+            printData(pTotal, dCard);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+            cout << "сдавай.i. /// пас.cin random.?\n";
+            cin >> choice;
+            turn(pTotal, choice, stay);
+
+        }
+
+        stay = false;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+        cout << "\n\nИграет комп.";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".\n";
+        Sleep(500);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+        // игра компа
+        while (dTotal <= 21 && !stay) {
+
+            if (dTotal >= 17)
+                stay = true;
+            else
+                dTotal += getCard();
+
+        }
+
+        
+        // Экран игры
+        cout << "\n\nУ нас  " << pTotal
+            << ".\nУ компа " << dTotal << ".\n\n";
+
+        if ((pTotal > dTotal) && (pTotal < 22 && dTotal < 22) || (dTotal > 21 && pTotal < 22))
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
+            cout << "Очко спасено!\n\n\n\n";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+        }
+        else if ((pTotal == dTotal) || (pTotal > 21 && dTotal > 21))  
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+            cout << "Ничья!\n\n\n\n";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+        }
+        else {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+            cout << "Готовь очко!\n";
+            Sleep(1000);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+            cout << "Теперь ты ";
+            Sleep(1000);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+            cout << " Р";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+            cout << "А";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+            cout << "Д";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+            cout << "У";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+            cout << "Ж";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
+            cout << "Н";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
+            cout << "Ы";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
+            cout << "Й ";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+            cout << "\n\n\n\n";
+            Sleep(2000);
+        }
+
+    }
+
+}
